@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Saúde">
+<title>Meu App de Saúde</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topo"><h1 id="titulo">Hoje</h1></header>
+
+<main>
+  <!-- ===== HOJE / DIÁRIO ===== -->
+  <section id="tela-hoje" class="tela ativa">
+    <div class="navdata">
+      <button class="btn-icone" id="dia-ant" aria-label="Dia anterior">‹</button>
+      <span id="data-atual"></span>
+      <button class="btn-icone" id="dia-prox" aria-label="Próximo dia">›</button>
+    </div>
+    <div class="card" id="resumo-dia"></div>
+    <div class="acoes-add">
+      <button class="btn" id="btn-foto">📷 Foto</button>
+      <button class="btn" id="btn-buscar">🔎 Buscar</button>
+      <button class="btn" id="btn-texto">✍️ Descrever</button>
+    </div>
+    <input type="file" id="input-foto" accept="image/*" capture="environment" hidden>
+    <div id="lista-refeicoes"></div>
+  </section>
+
+  <!-- ===== TREINO ===== -->
+  <section id="tela-treino" class="tela">
+    <div class="card">
+      <h2>Montar plano</h2>
+      <label>Local
+        <select id="tr-local"><option value="academia">Academia</option><option value="casa">Casa (halteres/elástico/peso corporal)</option></select>
+      </label>
+      <label>Dias por semana
+        <select id="tr-dias"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select>
+      </label>
+      <label>Nível
+        <select id="tr-nivel"><option value="iniciante">Iniciante (menos de 1 ano)</option><option value="intermediario">Intermediário</option></select>
+      </label>
+      <button class="btn primario" id="tr-gerar">Gerar plano</button>
+    </div>
+    <div id="tr-plano"></div>
+    <div id="tr-sessao"></div>
+    <div id="tr-historico"></div>
+  </section>
+
+  <!-- ===== PESO ===== -->
+  <section id="tela-peso" class="tela">
+    <div class="card">
+      <h2>Registrar peso</h2>
+      <p class="dica">Pese-se de manhã, em jejum, depois de ir ao banheiro. O que importa é a média da semana, não o valor de um dia.</p>
+      <div class="linha">
+        <input type="number" id="peso-valor" step="0.1" inputmode="decimal" placeholder="kg">
+        <input type="date" id="peso-data">
+        <button class="btn primario" id="peso-salvar">Salvar</button>
+      </div>
+    </div>
+    <div class="card" id="peso-analise"></div>
+    <div class="card"><div id="peso-grafico"></div></div>
+    <div class="card" id="peso-lista"></div>
+  </section>
+
+  <!-- ===== ARTIGOS ===== -->
+  <section id="tela-artigos" class="tela">
+    <div class="card">
+      <h2>Buscar no PubMed</h2>
+      <input type="search" id="art-busca" placeholder="ex: protein intake body recomposition">
+      <label class="check"><input type="checkbox" id="art-meta" checked> Só meta-análises e revisões sistemáticas</label>
+      <button class="btn primario" id="art-buscar">Buscar</button>
+      <div class="chips" id="art-sugestoes"></div>
+      <p class="dica">Dica: busque em inglês, porque a maioria dos artigos está em inglês. O resumo com IA sai em português.</p>
+    </div>
+    <div id="art-resultados"></div>
+    <div class="card">
+      <h2>Base científica do app</h2>
+      <div id="art-base"></div>
+    </div>
+  </section>
+
+  <!-- ===== PERFIL ===== -->
+  <section id="tela-perfil" class="tela">
+    <div class="card">
+      <h2>Seus dados</h2>
+      <div class="grade2">
+        <label>Sexo<select id="pf-sexo"><option value="m">Masculino</option><option value="f">Feminino</option></select></label>
+        <label>Idade<input type="number" id="pf-idade" inputmode="numeric"></label>
+        <label>Peso (kg)<input type="number" id="pf-peso" step="0.1" inputmode="decimal"></label>
+        <label>Altura (cm)<input type="number" id="pf-altura" inputmode="numeric"></label>
+      </div>
+      <label>Nível de atividade (fora o treino planejado + dia a dia)
+        <select id="pf-atividade">
+          <option value="1.2">Sedentário (trabalho sentado, pouco movimento)</option>
+          <option value="1.375" selected>Leve (treino 1–3x/semana)</option>
+          <option value="1.55">Moderado (treino 3–5x/semana)</option>
+          <option value="1.725">Alto (treino 6–7x/semana)</option>
+          <option value="1.9">Muito alto (trabalho braçal + treino)</option>
+        </select>
+      </label>
+      <label>Objetivo
+        <select id="pf-objetivo">
+          <option value="recomp" selected>Emagrecer + ganhar músculo (recomposição)</option>
+          <option value="cut">Emagrecer mais rápido</option>
+          <option value="manter">Manter peso</option>
+          <option value="bulk">Ganhar massa (superávit leve)</option>
+        </select>
+      </label>
+      <button class="btn primario" id="pf-salvar">Calcular metas</button>
+    </div>
+    <div class="card" id="pf-resultado"></div>
+
+    <div class="card">
+      <h2>Inteligência artificial (Gemini)</h2>
+      <p class="dica">Crie uma chave gratuita em <b>aistudio.google.com</b> → “Get API key”. Ela fica salva só neste aparelho.</p>
+      <label>Chave da API<input type="password" id="cfg-chave" autocomplete="off" placeholder="AIza..."></label>
+      <label>Modelo<input type="text" id="cfg-modelo" placeholder="gemini-flash-latest"></label>
+      <div class="linha">
+        <button class="btn primario" id="cfg-salvar">Salvar</button>
+        <button class="btn" id="cfg-testar">Testar</button>
+      </div>
+      <p class="dica" id="cfg-status"></p>
+    </div>
+
+    <div class="card">
+      <h2>Backup</h2>
+      <p class="dica">Os dados ficam só no seu iPhone. Faça um backup de vez em quando, porque se você limpar os dados do Safari, tudo é apagado.</p>
+      <div class="linha">
+        <button class="btn" id="bk-exportar">Exportar</button>
+        <button class="btn" id="bk-importar">Importar</button>
+      </div>
+      <input type="file" id="bk-arquivo" accept="application/json" hidden>
+    </div>
+    <p class="aviso">Este app é uma ferramenta pessoal e não substitui médico ou nutricionista. Se tiver alguma condição de saúde, valide o plano com um profissional.</p>
+  </section>
+</main>
+
+<nav class="abas">
+  <button data-tela="hoje" class="ativa"><span>🍽️</span>Hoje</button>
+  <button data-tela="treino"><span>🏋️</span>Treino</button>
+  <button data-tela="peso"><span>⚖️</span>Peso</button>
+  <button data-tela="artigos"><span>📚</span>Artigos</button>
+  <button data-tela="perfil"><span>👤</span>Perfil</button>
+</nav>
+
+<!-- Janela modal genérica -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-caixa">
+    <div class="modal-topo"><h2 id="modal-titulo"></h2><button class="btn-icone" id="modal-fechar" aria-label="Fechar">✕</button></div>
+    <div id="modal-corpo"></div>
+  </div>
+</div>
+
+<script src="taco.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
